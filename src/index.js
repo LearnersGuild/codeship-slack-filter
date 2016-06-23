@@ -11,7 +11,7 @@ if (!process.env.HOOK_ROUTE) {
 
 const app = connect()
 app.use(bodyParser.json())
-app.post(`${process.env.HOOK_ROUTE}`, (req, res) => {
+app.post(`/${process.env.HOOK_ROUTE}`, (req, res) => {
   console.info('incoming webhook', req.method, req.url, req.headers)
   const postData = req.body
   if (postData) {
