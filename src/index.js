@@ -5,11 +5,13 @@ import bodyParser from 'body-parser'
 
 process.env.PORT = process.env.PORT || '4444'
 
-const format = input => JSON.stringify(input, null, 2)
+if (!process.env.HOOK_ROUTE) {
+  throw new Error('HOOK_ROUTE must be set in the environment.')
+}
 
 const app = connect()
 app.use(bodyParser.json())
-app.use((req, res) => {
+app.post(`${process.env.HOOK_ROUTE}`, (req, res) => {
   console.info('incoming webhook', req.method, req.url, req.headers)
   const postData = req.body
   if (postData) {
