@@ -10,7 +10,7 @@ const format = input => JSON.stringify(input, null, 2)
 const app = connect()
 app.use(bodyParser.json())
 app.use((req, res) => {
-  console.info('incoming webhook', req.method, req.url)
+  console.info('incoming webhook', req.method, req.url, req.headers)
   const postData = req.body
   if (postData) {
     console.info('RECEIVED:\n\n', postData)
