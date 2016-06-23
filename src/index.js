@@ -1,6 +1,6 @@
 import http from 'http'
 
-import connect from 'connect'
+import express from 'express'
 import bodyParser from 'body-parser'
 
 process.env.PORT = process.env.PORT || '4444'
@@ -9,15 +9,14 @@ if (!process.env.HOOK_ROUTE) {
   throw new Error('HOOK_ROUTE must be set in the environment.')
 }
 
-const app = connect()
+const app = express()
 app.use(bodyParser.json())
 app.post(`/${process.env.HOOK_ROUTE}`, (req, res) => {
-  console.info('incoming webhook', req.method, req.url, req.headers)
+  console.info('incoming webhook', req.method, req.url, req.headers, req.query, req.body)
   const postData = req.body
   if (postData) {
-    console.info('RECEIVED:\n\n', postData)
   }
-  res.end('OK\n')
+  res.status(200).send('OK\n')
 })
 
 const server = http.createServer(app)
