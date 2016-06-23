@@ -9,7 +9,12 @@ Filter out unwanted Codeship build notifications before sending to Slack.
 
         $ npm install
 
-3. Run the server
+3. Export your environment variables, e.g.:
+
+        $ export HOOK_ROUTE=39624f1b3d4a1775cb10bacd83b028908a13f8f8
+        $ export SLACK_CODESHIP_WEBHOOK_URL=https://hooks.slack.com/services/000000000/111111111/222222222233333333334444
+
+4. Run the server
 
         $ npm run build && npm start
 
