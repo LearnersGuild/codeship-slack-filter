@@ -48,6 +48,7 @@ function colorForStatus(status) {
 function shouldBePosted(body) {
   const {build} = body
   if (!build) {
+    console.log('no "build" attribute found in body, not posting')
     return false
   }
   /* eslint-disable camelcase */
@@ -57,12 +58,15 @@ function shouldBePosted(body) {
     status,
   } = build
   if (branch !== 'master') {
+    console.log('not on "master" branch, not posting')
     return false
   }
   if (status === 'stopped' || status === 'waiting') {
+    console.log(`status is "${status}", not posting`)
     return false
   }
   if (status === 'success' && projectBuildStatusMap[project_name] !== 'error') {
+    console.log(`status is "${status}" and last build for this project was not an error, not posting`)
     return false
   }
   projectBuildStatusMap[project_name] = status
@@ -109,6 +113,7 @@ const app = express()
 app.use(bodyParser.json())
 app.post(`/${process.env.HOOK_ROUTE}`, (req, res) => {
   console.info('incoming webhook', req.method, req.url) // , req.headers, req.query, req.body)
+  console.info('body:', req.body)
   if (shouldBePosted(req.body)) {
     return fetch(process.env.SLACK_CODESHIP_WEBHOOK_URL, {
       method: 'POST',
