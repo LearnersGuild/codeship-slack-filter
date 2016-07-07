@@ -57,11 +57,11 @@ function shouldBePosted(body) {
     project_name,
     status,
   } = build
-  if (branch !== 'master') {
-    console.log('not on "master" branch, not posting')
+  if (branch !== 'master' && branch !== 'lg-master') { // echo-chat uses lg-master
+    console.log('not on "master" or "lg-master" branch, not posting')
     return false
   }
-  if (status === 'stopped' || status === 'waiting') {
+  if (status === 'stopped' || status === 'waiting' || status === 'testing') {
     console.log(`status is "${status}", not posting`)
     return false
   }
